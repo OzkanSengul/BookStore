@@ -9,7 +9,6 @@ const BestSellBooks = () => {
     const getBooks = async () => {
       const booksFromServer = await fetch("http://localhost:5000/all-books");
       const data = await booksFromServer.json();
-      console.log(data);
       setBooks(data);
     };
     getBooks();
