@@ -2,46 +2,46 @@ import React, { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
 
-const Signup = () => {
-  const { createUser,loginWithGoogle } = useContext(AuthContext);
-  const location = useLocation();
-  const navigate = useNavigate();
-  const from = location.state?.from || { pathname: "/" };
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const user = {
-      email: form.email.value,
-      password: form.password.value,
+const Login = () => {
+    const { loginWithGoogle,signIn } = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || "/";
+  
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const user = {
+          email: form.email.value,
+          password: form.password.value,
+        };
+        console.log(user);
+      
+        await signIn(user.email, user.password); // await here if signIn is asynchronous
+      
+        alert("User Login Successfully");
+        navigate(from, { replace: true });
+      };
+      
+    const handleRegister = (e) => {
+      e.preventDefault();
+      loginWithGoogle();
+      navigate(from, { replace: true });
     };
-    createUser(user.email, user.password);
-    alert("User Created Successfully");
-    navigate(from, { replace: true });
-  };
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-    loginWithGoogle();
-    navigate(from, { replace: true });
-  };
-
-    
-
   return (
-    <>
-      <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
           <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
             <div className="max-w-md mx-auto">
               <div>
                 <h1 className="text-2xl font-semibold">
-                  Sign Up Form with Floating Labels
+                 Login to your account
                 </h1>
               </div>
               <form
-                onSubmit={handleSignup}
+                onSubmit={handleLogin}
                 className="divide-y divide-gray-200"
               >
                 <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
@@ -65,9 +65,9 @@ const Signup = () => {
                   </div>
                   <div className="relative">
                     <p>
-                      If you already have an account, Please{" "}
-                      <Link to="/login" className="text-blue-600 underline ">
-                        Login
+                      If you havent an account. Please Register{" "}
+                      <Link to="/sign-up" className="text-blue-600 underline ">
+                        Sign Up
                       </Link>{" "}
                       Here
                     </p>
@@ -76,8 +76,9 @@ const Signup = () => {
                       <button
                         className="bg-blue-500 text-white rounded-md px-4 py-2"
                         type="submit"
+
                       >
-                        Sign Up
+                        Login
                       </button>
                     </div>
                   </div>
@@ -97,8 +98,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
-    </>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Login
