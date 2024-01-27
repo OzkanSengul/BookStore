@@ -1,21 +1,44 @@
-import React from 'react'
-import { Sidebar } from 'flowbite-react';
-import { BiBuoy } from 'react-icons/bi';
-import { HiArrowSmRight, HiChartPie, HiInbox, HiOutlineCloudUpload, HiShoppingBag, HiTable, HiUser, HiViewBoards } from 'react-icons/hi';
-import userImg from '../assets/profile.jpg';
+import React from "react";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
+import { Sidebar } from "flowbite-react";
+import { BiBuoy } from "react-icons/bi";
+import {
+  HiArrowSmRight,
+  HiChartPie,
+  HiInbox,
+  HiOutlineCloudUpload,
+  HiShoppingBag,
+  HiTable,
+  HiUser,
+  HiViewBoards,
+} from "react-icons/hi";
 
 const SideBar = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <Sidebar aria-label="Sidebar with logo branding example">
-    <Sidebar.Logo href="#" img={userImg} imgAlt="Flowbite logo">
-      Flowbite
-    </Sidebar.Logo>
+      <Sidebar.Logo
+        href="#"
+        img={
+          //if user is logged in, show user's photo, else show logo
+          user ? user.photoURL : "https://flowbite.com/docs/images/logo.svg"
+        }
+        imgAlt="Flowbite logo"
+        className="flex h-16 w-16"
+      >
+        <p>{user?.displayName ? user.displayName : "Flowbite"}</p>
+      </Sidebar.Logo>
       <Sidebar.Items>
         <Sidebar.ItemGroup>
           <Sidebar.Item href="/admin/dashboard" icon={HiChartPie}>
             Dashboard
           </Sidebar.Item>
-          <Sidebar.Item href="/admin/dashboard/upload" icon={HiOutlineCloudUpload}>
+          <Sidebar.Item
+            href="/admin/dashboard/upload"
+            icon={HiOutlineCloudUpload}
+          >
             Upload
           </Sidebar.Item>
           <Sidebar.Item href="/admin/dashboard/manage" icon={HiInbox}>
@@ -47,7 +70,7 @@ const SideBar = () => {
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
-  )
-}
+  );
+};
 
-export default SideBar
+export default SideBar;
